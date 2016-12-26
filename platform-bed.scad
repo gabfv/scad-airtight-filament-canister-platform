@@ -5,6 +5,7 @@ height = 10;
 widthSupportBeams = 10;
 thicknessOuterSupportWalls = 15;
 
+//This create the platform bed, with all the elements.
 union() {
     addPlatformOuterSupportWalls(length, width, height, thicknessOuterSupportWalls);
     addXShapedSupportBeamsToPlatform(length, width, height, thicknessOuterSupportWalls);
