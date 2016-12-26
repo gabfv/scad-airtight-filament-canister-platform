@@ -21,7 +21,7 @@ module addPlatformOuterSupportWalls(length, width, height, thicknessOuterSupport
 //This will add X-shaped support beams to the platform, while taking into account the thickness of the outer support walls.
 module addXShapedSupportBeamsToPlatform(length, width, height, thicknessOuterSupportWalls) {
    //We need to calculate the angle needed for the support beams in the middle.
-   //We calculate the length of a beam from the center to a corner, when meeting the outer walls.
+   /*//We calculate the length of a beam from the center to a corner, when meeting the outer walls.*/
    beamLengthCenterToInteriorCorner = sqrt(pow((length - thicknessOuterSupportWalls * 2) / 2, 2) + pow((width - thicknessOuterSupportWalls * 2) / 2, 2));
    echo("Beam half-length is : ", beamLengthCenterToInteriorCorner);
 
