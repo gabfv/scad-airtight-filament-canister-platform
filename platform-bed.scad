@@ -1,3 +1,5 @@
+use <.\scad-metric-thread-library\ISOThreadUM2.scad>; //This library will let us have thread holes.
+
 //Those parameters define the platform's bed.
 length = 110;
 width = 80;
