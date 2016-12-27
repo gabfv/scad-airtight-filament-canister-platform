@@ -26,6 +26,7 @@ module addPlatformOuterSupportWalls(length, width, height, thicknessOuterSupport
 //This will add X-shaped support beams to the platform, while taking into account the thickness of the outer support walls.
 module addXShapedSupportBeamsToPlatform(length, width, height, thicknessOuterSupportWalls, widthSupportBeams) {
    //We calculate the length of a beam from the center to a corner, when meeting the outer walls.
+   //We calculate the length of a beam from the center to a corner, when meeting the outer walls.
    beamLengthCenterToInteriorCorner = sqrt(pow((length - thicknessOuterSupportWalls * 2) / 2, 2) + pow((width - thicknessOuterSupportWalls * 2) / 2, 2));
    echo("Beam half-length is : ", beamLengthCenterToInteriorCorner);
 
@@ -48,16 +49,29 @@ module addXShapedSupportBeamsToPlatform(length, width, height, thicknessOuterSup
 
 //Add 8 block with threaded holes underneath the platform. This allow the platform to be attached to other platforms and have other various addons.
 module addThreadHolesBeneathPlatform(length, width, height, thicknessOuterSupportWalls, metricThreadSize) {
-   //block_with_thread_in(8,10,16,16);   // Make an M8 X 10 thread in a block of 16 x 16
+   //We adjust the first four blocks which the Y axis pass through the holes.
    translate([metricThreadSize, thicknessOuterSupportWalls, -metricThreadSize]) { //Lower the block so its top is against the bottom of the platform and align it with origin.
-      rotate([90, 0, 0]) { //We rotate four of the
-         //translate([length / 4, 0, 0]) {
-            //translate([0, -width / 2, 0])
-            block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
-         //}
+      rotate([90, 0, 0]) { //We rotate them in right direction.
+            //Side toward -Y.
+            translate([length / 4 - metricThreadSize, 0, 0]) block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
+            translate([3 * length / 4 - metricThreadSize, 0, 0])block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
+
+            //Side toward +Y.
+            translate([length / 4 - metricThreadSize, 0, thicknessOuterSupportWalls - width]) block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
+            translate([3 * length / 4 - metricThreadSize, 0, thicknessOuterSupportWalls - width]) block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
       }
    }
 
+   //We adjust the last four blocks which the X axis pass through the holes.
+   translate([0, metricThreadSize, -metricThreadSize]) { //Lower the block so its top is against the bottom of the platform and align it with origin.
+      rotate([0, 90, 0]) {
+         //Side toward -X.
+         translate([0, width / 3 - metricThreadSize, 0]) block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
+         translate([0, 2 * width / 3 - metricThreadSize, 0]) block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
 
-
+         //Side toward +X.
+         translate([0, width / 3 - metricThreadSize, length - thicknessOuterSupportWalls]) block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
+         translate([0, 2 * width / 3 - metricThreadSize, length - thicknessOuterSupportWalls]) block_with_thread_in(metricThreadSize, thicknessOuterSupportWalls, metricThreadSize * 2, metricThreadSize * 2);
+      }
+   }
 }
