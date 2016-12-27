@@ -8,11 +8,17 @@ widthSupportBeams = 10;
 thicknessOuterSupportWalls = 15;
 metricThreadSize = 8;
 
+createPlatformBed(length, width, height, thicknessOuterSupportWalls, widthSupportBeams, metricThreadSize);
+
 //This create the platform bed, with all the elements.
-union() {
-    addPlatformOuterSupportWalls(length, width, height, thicknessOuterSupportWalls);
-    addXShapedSupportBeamsToPlatform(length, width, height, thicknessOuterSupportWalls, widthSupportBeams);
-    addThreadHolesBeneathPlatform(length, width, height, thicknessOuterSupportWalls, metricThreadSize);
+module createPlatformBed(length, width, height, thicknessOuterSupportWalls, widthSupportBeams, metricThreadSize) {
+   rotate([180, 0, 0]) { //Rotation for easier printing.
+      union() {
+          addPlatformOuterSupportWalls(length, width, height, thicknessOuterSupportWalls);
+          addXShapedSupportBeamsToPlatform(length, width, height, thicknessOuterSupportWalls, widthSupportBeams);
+          addThreadHolesBeneathPlatform(length, width, height, thicknessOuterSupportWalls, metricThreadSize);
+      }
+   }
 }
 
 //To make the platform outer support walls, we basically make a cube that fits the dimension required and subtract another cube from it minus the thickness of the outer support walls.
@@ -25,8 +31,7 @@ module addPlatformOuterSupportWalls(length, width, height, thicknessOuterSupport
 
 //This will add X-shaped support beams to the platform, while taking into account the thickness of the outer support walls.
 module addXShapedSupportBeamsToPlatform(length, width, height, thicknessOuterSupportWalls, widthSupportBeams) {
-   //We calculate the length of a beam from the center to a corner, when meeting the outer walls.
-   //We calculate the length of a beam from the center to a corner, when meeting the outer walls.
+   //We calculate the length of a beam from the center to a corner, when meeting the outer walls. This will be useful for rotating the beams.
    beamLengthCenterToInteriorCorner = sqrt(pow((length - thicknessOuterSupportWalls * 2) / 2, 2) + pow((width - thicknessOuterSupportWalls * 2) / 2, 2));
    echo("Beam half-length is : ", beamLengthCenterToInteriorCorner);
 
