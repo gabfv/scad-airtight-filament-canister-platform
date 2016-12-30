@@ -1,0 +1,3 @@
+[submodule "scad-metric-thread-library"]
+	path = scad-metric-thread-library
+	url = git@github.com:gabfv/scad-metric-thread-library.git
